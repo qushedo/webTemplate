@@ -3,7 +3,7 @@ package v1
 import (
 	"context"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/spf13/viper"
 	"time"
 	"webTemplate/cmd/app"
@@ -63,10 +63,10 @@ func NewUserHandler(app *app.App) *UserHandler {
 // @Failure      400  {object}  dto.HTTPError
 // @Failure      500  {object}  dto.HTTPError
 // @Router       /user/register [post]
-func (h UserHandler) register(c *fiber.Ctx) error {
+func (h UserHandler) register(c fiber.Ctx) error {
 	var userDTO dto.UserRegister
 
-	if err := c.BodyParser(&userDTO); err != nil {
+	if err := c.Bind().Body(&userDTO); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.HTTPError{
 			Code:    fiber.StatusBadRequest,
 			Message: err.Error(),
@@ -142,10 +142,10 @@ func (h UserHandler) register(c *fiber.Ctx) error {
 // @Failure      404  {object}  dto.HTTPError
 // @Failure      500  {object}  dto.HTTPError
 // @Router       /user/login [post]
-func (h UserHandler) login(c *fiber.Ctx) error {
+func (h UserHandler) login(c fiber.Ctx) error {
 	var userDTO dto.UserLogin
 
-	if err := c.BodyParser(&userDTO); err != nil {
+	if err := c.Bind().Body(&userDTO); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.HTTPError{
 			Code:    fiber.StatusBadRequest,
 			Message: err.Error(),
@@ -209,10 +209,10 @@ func (h UserHandler) login(c *fiber.Ctx) error {
 // @Failure      403  {object}  dto.HTTPError
 // @Failure      500  {object}  dto.HTTPError
 // @Router       /user/refresh [post]
-func (h UserHandler) refreshToken(c *fiber.Ctx) error {
+func (h UserHandler) refreshToken(c fiber.Ctx) error {
 	var accessTokenDTO dto.Token
 
-	if err := c.BodyParser(&accessTokenDTO); err != nil {
+	if err := c.Bind().Body(&accessTokenDTO); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.HTTPError{
 			Code:    fiber.StatusBadRequest,
 			Message: err.Error(),
@@ -271,10 +271,10 @@ func (h UserHandler) refreshToken(c *fiber.Ctx) error {
 // @Failure      403  {object}  dto.HTTPError
 // @Failure      500  {object}  dto.HTTPError
 // @Router       /user/verify [post]
-func (h UserHandler) verify(c *fiber.Ctx) error {
+func (h UserHandler) verify(c fiber.Ctx) error {
 	var userCode dto.UserCode
 
-	if err := c.BodyParser(&userCode); err != nil {
+	if err := c.Bind().Body(&userCode); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(dto.HTTPError{
 			Code:    fiber.StatusBadRequest,
 			Message: err.Error(),

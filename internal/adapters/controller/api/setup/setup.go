@@ -1,9 +1,8 @@
 package setup
 
 import (
-	"github.com/gofiber/contrib/swagger"
-	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v3/middleware/cors"
+	"github.com/gofiber/fiber/v3/middleware/logger"
 	"github.com/spf13/viper"
 	"webTemplate/cmd/app"
 	v1 "webTemplate/internal/adapters/controller/api/v1"
@@ -14,12 +13,12 @@ import (
 func Setup(app *app.App) {
 	app.Fiber.Use(cors.New(cors.ConfigDefault))
 
-	app.Fiber.Use(swagger.New(swagger.Config{
-		BasePath: "/api/v1",
-		FilePath: "./docs/swagger.json",
-		Path:     "./docs",
-		Title:    "Swagger API Docs",
-	}))
+	//app.Fiber.Use(swagger.New(swagger.Config{
+	//	BasePath: "/api/v1",
+	//	FilePath: "./docs/swagger.json",
+	//	Path:     "./docs",
+	//	Title:    "Swagger API Docs",
+	//}))
 
 	if viper.GetBool("settings.debug") {
 		app.Fiber.Use(logger.New(logger.Config{TimeZone: viper.GetString("settings.timezone")}))

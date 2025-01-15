@@ -19,7 +19,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-      "/user/login": {
+        "/user/login": {
             "post": {
                 "description": "Login to existing user account using his email, username and password. Returns his ID, email, username, verifiedEmail boolean variable and role",
                 "consumes": [
@@ -321,10 +321,14 @@ const docTemplate = `{
             ],
             "properties": {
                 "email": {
-                    "type": "string"
+                    "description": "User's email, must be valid email address",
+                    "type": "string",
+                    "example": "example@gmail.com"
                 },
                 "password": {
-                    "type": "string"
+                    "description": "User's password",
+                    "type": "string",
+                    "example": "Password1234"
                 }
             }
         },

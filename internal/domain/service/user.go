@@ -26,7 +26,7 @@ func NewUserService(storage userStorage) *userService {
 
 func (s *userService) Create(ctx context.Context, registerReq dto.UserRegister, code string) (*entity.User, error) {
 	if _, err := s.storage.GetByEmail(ctx, registerReq.Email); err == nil {
-		return nil, errorz.EmailAlreadyExists
+		return nil, errorz.EmailAlreadyTaken
 	}
 
 	user := entity.User{

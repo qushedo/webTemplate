@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"context"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"webTemplate/cmd/app"
 	"webTemplate/internal/adapters/config"
 	"webTemplate/internal/adapters/database/postgres"
@@ -36,7 +36,7 @@ func NewMiddlewareHandler(app *app.App) *MiddlewareHandler {
  * requiredRights ...string - the rights that the user must have
  */
 func (h MiddlewareHandler) IsAuthenticated(tokenType string, requiredRights ...string) fiber.Handler {
-	return func(c *fiber.Ctx) error {
+	return func(c fiber.Ctx) error {
 		authHeader := c.Get("Authorization")
 
 		user, fetchErr := auth.GetUserFromJWT(authHeader, tokenType, c.Context(), h.userService.GetByID)
