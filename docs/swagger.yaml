@@ -50,8 +50,12 @@ definitions:
   dto.UserLogin:
     properties:
       email:
+        description: User's email, must be valid email address
+        example: example@gmail.com
         type: string
       password:
+        description: User's password
+        example: Password1234
         type: string
     required:
     - email

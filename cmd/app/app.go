@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 	"webTemplate/internal/adapters/config"
@@ -21,7 +21,7 @@ type App struct {
 func New(config *config.Config) *App {
 	fiberApp := fiber.New(fiber.Config{
 		// Global custom error handler
-		ErrorHandler: func(c *fiber.Ctx, err error) error {
+		ErrorHandler: func(c fiber.Ctx, err error) error {
 			return c.Status(fiber.StatusBadRequest).JSON(validator.GlobalErrorHandlerResp{
 				Success: false,
 				Message: err.Error(),
@@ -41,11 +41,12 @@ func New(config *config.Config) *App {
 // Start is a function that starts the app
 func (a *App) Start() {
 	if viper.GetBool("settings.listen-tls") {
-		if err := a.Fiber.ListenTLS(
+		if err := a.Fiber.Listen(
 			":"+viper.GetString("service.backend.port"),
-			viper.GetString("service.backend.certificate.cert-file"),
-			viper.GetString("service.backend.certificate.key-file"),
-		); err != nil {
+			fiber.ListenConfig{
+				CertFile:    viper.GetString("service.backend.certificate.cert-file"),
+				CertKeyFile: viper.GetString("service.backend.certificate.key-file"),
+			}); err != nil {
 			logger.Log.Panicf("failed to start listen (with tls): %v", err)
 		}
 	} else {

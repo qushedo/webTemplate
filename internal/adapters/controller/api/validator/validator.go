@@ -3,7 +3,7 @@ package validator
 import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v3"
 	"strconv"
 	"strings"
 	"unicode"
@@ -104,7 +104,7 @@ func (v Validator) ValidateData(data interface{}) *fiber.Error {
 	return nil
 }
 
-func (v Validator) GetLimitAndOffset(c *fiber.Ctx, defaultLimit string, defaultOffset string) (int, int) {
+func (v Validator) GetLimitAndOffset(c fiber.Ctx, defaultLimit string, defaultOffset string) (int, int) {
 	limit, err := strconv.Atoi(c.Query("limit", defaultLimit))
 	if err != nil {
 		return 0, 10
